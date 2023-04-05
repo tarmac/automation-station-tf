@@ -5,6 +5,43 @@ variable "availability_zones" {
   ]
 }
 
+variable "cluster_engine" {
+  type = string
+}
+
+variable "engine_version" {
+  type = string
+}
+
+variable "database_name" {
+  type = string
+}
+
+variable "master_username" {
+  type = string
+}
+
+variable "backup_retention_period" {
+  type = string
+}
+
+variable "storage_encrypted" {
+  type = string
+}
+
+variable "apply_immediately" {
+  type = string
+}
+
+variable "serverless_scaling_configuration_max_capacity" {
+  type = string
+}
+
+variable "serverless_scaling_configuration_min_capacity" {
+  type = string
+}
+
+
 variable "cluster_subnet_database_id" {
   description = "List of database subnet ids"
   type        = list(string)
@@ -37,10 +74,14 @@ variable "tags" {
   type        = map(any)
 }
 
-variable "properties" {
-  type = any
+variable "vpc_cidr" {
+  type = string
 }
 
-variable "vpc_cidr" {
+variable "instance_class" {
+  type = string
+}
+
+variable "engine_mode" {
   type = string
 }
