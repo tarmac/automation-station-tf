@@ -85,3 +85,12 @@ variable "instance_class" {
 variable "engine_mode" {
   type = string
 }
+
+variable "enable_http_endpoint" {
+  type = string
+}
+
+variable "public_subnets" {
+  type        = list(string)
+  description = "A list of all public subnets IDs."
+}

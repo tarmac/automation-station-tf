@@ -10,7 +10,7 @@ resource "aws_rds_cluster" "db_cluster" {
   backup_retention_period = var.backup_retention_period #7
   storage_encrypted       = var.storage_encrypted #true
   apply_immediately       = var.apply_immediately #true
-  vpc_security_group_ids  = [aws_security_group.aurora_vpc_segurity_group.id]
+  vpc_security_group_ids  = [aws_security_group.aurora_vpc_security_group.id]
   kms_key_id              = aws_kms_key.db_cluster.arn
   db_subnet_group_name    = aws_db_subnet_group.db_cluster_subnet_group.name
   enable_http_endpoint    = var.enable_http_endpoint

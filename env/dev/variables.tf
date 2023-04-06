@@ -61,11 +61,6 @@ variable "instance_class" {
 variable "engine_mode" {
   default = "provisioned"
 }
-
-variable "key_pair" {
-  default = "internal-tool-neme"
-}
-
 variable "instance_type" {
   default = "t3.micro"
 }
@@ -76,4 +71,8 @@ variable "static_ip" {
 
 variable "instance_ami" {
   default = "ami-0735c191cf914754d"
+}
+
+variable "enable_http_endpoint" {
+  default = "true"
 }
