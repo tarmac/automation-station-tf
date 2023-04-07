@@ -1,30 +1,48 @@
 resource "aws_rds_cluster" "db_cluster" {
   cluster_identifier      = "${var.tags["env"]}-${var.tags["projectname"]}-db-cluster"
-  engine                  = var.cluster_engine #aurora-mysql
-  engine_version          = var.engine_version #13.8
-  engine_mode             = var.engine_mode #provisioned
+  engine                  = var.engine
+  engine_mode             = var.engine_mode 
+  engine_version          = var.engine_version
   availability_zones      = var.availability_zones
-  database_name           = var.database_name #DB_Name on creation
+  database_name           = var.database_name
   master_username         = var.master_username
+  skip_final_snapshot     = var.skip_final_snapshot
+  final_snapshot_identifier = var.final_snapshot_identifier
   master_password         = random_password.root-password.result
-  backup_retention_period = var.backup_retention_period #7
-  storage_encrypted       = var.storage_encrypted #true
-  apply_immediately       = var.apply_immediately #true
+  backup_retention_period = var.backup_retention_period 
+  storage_encrypted       = var.storage_encrypted
+  apply_immediately       = var.apply_immediately
   vpc_security_group_ids  = [aws_security_group.aurora_vpc_security_group.id]
   kms_key_id              = aws_kms_key.db_cluster.arn
   db_subnet_group_name    = aws_db_subnet_group.db_cluster_subnet_group.name
   enable_http_endpoint    = var.enable_http_endpoint
+  scaling_configuration {
+    auto_pause                = var.auto_pause
+    min_capacity              = var.min_capacity #1
+    max_capacity              = var.max_capacity #4
+    seconds_until_auto_pause  = var.seconds_until_auto_pause #300
+    timeout_action            = "ForceApplyCapacityChange"
+  }
 
-  serverlessv2_scaling_configuration {
-    max_capacity = var.serverless_scaling_configuration_max_capacity #3.0
-    min_capacity = var.serverless_scaling_configuration_min_capacity #0.5
+  tags = {
+    Name = "${var.tags["env"]}-${var.tags["projectname"]}-db-cluster-server-eip"
+    Managed_by = "terraform"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      availability_zones
+    ]
   }
 }
 
 resource "aws_db_subnet_group" "db_cluster_subnet_group" {
   name       = "${var.tags["env"]}-${var.tags["projectname"]}-db-cluster-subnet"
   subnet_ids = var.cluster_subnet_database_id
-  tags       = var.tags
+  tags = {
+    Name = "${var.tags["env"]}-${var.tags["projectname"]}-db-cluster-subnets"
+    Managed_by = "terraform"
+  }
 }
 
 resource "random_password" "root-password" {
@@ -42,13 +60,4 @@ resource "aws_kms_key" "db_cluster" {
 resource "aws_kms_alias" "db_cluster" {
   name          = "alias/${var.tags["env"]}-db-cluster"
   target_key_id = aws_kms_key.db_cluster.arn
-}
-
-resource "aws_rds_cluster_instance" "db_cluster_instance" {
-  identifier           = "${var.tags["env"]}-${var.tags["projectname"]}-instance"
-  instance_class       = var.instance_class #db.serverless
-  cluster_identifier   = aws_rds_cluster.db_cluster.id
-  engine               = aws_rds_cluster.db_cluster.engine
-  engine_version       = aws_rds_cluster.db_cluster.engine_version
-  db_subnet_group_name = aws_db_subnet_group.db_cluster_subnet_group.name
 }
