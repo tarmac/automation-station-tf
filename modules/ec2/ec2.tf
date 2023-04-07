@@ -32,5 +32,7 @@ resource "aws_eip" "vpn" {
 
   tags = {
     Name = "${var.tags["env"]}-server-eip"
+    Managed_by = "terraform"
   }
 }
+

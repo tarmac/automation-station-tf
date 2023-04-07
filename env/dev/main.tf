@@ -23,21 +23,21 @@ module "vpc" {
 }
 module "aurora" {
     source                      = "../../modules/aurora"
-    engine_mode                 = var.engine_mode
     master_username             = var.master_username
-    cluster_engine              = var.cluster_engine
+    engine                      = var.engine
+    engine_mode                 = var.engine_mode
+    engine_version              = var.engine_version
+    availability_zones          = var.availability_zones
     instance_class              = var.instance_class
     storage_encrypted           = var.storage_encrypted
     cluster_subnet_database_id  = module.vpc.private_subnet_ids
     vpc_id                      = module.vpc.vpc_id  
-    private_subnets             = module.vpc.public_subnet_ids
-    public_subnets              = module.vpc.private_subnet_ids
-    vpc_cidr                    = module.vpc.cidr_block 
-    engine_version              = var.engine_version
+    private_subnets             = module.vpc.subnet_private_cidr
+    public_subnets              = module.vpc.subnet_public_cidr
+    skip_final_snapshot         = var.skip_final_snapshot
+    final_snapshot_identifier   = var.final_snapshot_identifier
     apply_immediately           = var.apply_immediately
     database_name               = var.database_name
-    serverless_scaling_configuration_min_capacity = var.serverless_scaling_configuration_min_capacity
-    serverless_scaling_configuration_max_capacity = var.serverless_scaling_configuration_max_capacity
     backup_retention_period     = var.backup_retention_period
     enable_http_endpoint        = var.enable_http_endpoint
 

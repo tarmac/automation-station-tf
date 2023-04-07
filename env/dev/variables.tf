@@ -15,23 +15,28 @@ variable "vpc_cidr_block" {
 }
 
 variable "key_pair" {
-  default = "automtion"
+  default = "automation"
 }
-
-variable "cluster_engine" {
+variable "engine" {
   default = "aurora-mysql"
+}
+variable "engine_mode" {
+  default = "serverless"
 }
 
 variable "engine_version" {
-  default = "5.7.mysql_aurora.2.03.2"
+  default = "5.7.mysql_aurora.2.08.3"
+}
+variable "availability_zones" {
+    default = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "database_name" {
-  default = "db-automation-station"
+  default = "dbAutomationStation"
 }
 
 variable "master_username" {
-  default = "db_master_username"
+  default = "db_foo"
 }
 
 variable "backup_retention_period" {
@@ -46,21 +51,10 @@ variable "apply_immediately" {
   default = true
 }
 
-variable "serverless_scaling_configuration_max_capacity" {
-  default = "3.0"
-}
-
-variable "serverless_scaling_configuration_min_capacity" {
-  default = "0.5"
-}
-
 variable "instance_class" {
   default = "db.serverless"
 }
 
-variable "engine_mode" {
-  default = "provisioned"
-}
 variable "instance_type" {
   default = "t3.micro"
 }
@@ -70,9 +64,17 @@ variable "static_ip" {
 }
 
 variable "instance_ami" {
-  default = "ami-0735c191cf914754d"
+  default = "ami-007855ac798b5175e"
 }
 
 variable "enable_http_endpoint" {
-  default = "true"
+  default = true
+}
+
+variable "skip_final_snapshot" {
+  default = true
+}
+
+variable "final_snapshot_identifier" {
+  default = "dev-internal-db-cluster"
 }

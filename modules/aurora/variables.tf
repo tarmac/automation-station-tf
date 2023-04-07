@@ -5,7 +5,10 @@ variable "availability_zones" {
   ]
 }
 
-variable "cluster_engine" {
+variable "engine" {
+  type = string
+}
+variable "engine_mode" {
   type = string
 }
 
@@ -32,15 +35,6 @@ variable "storage_encrypted" {
 variable "apply_immediately" {
   type = string
 }
-
-variable "serverless_scaling_configuration_max_capacity" {
-  type = string
-}
-
-variable "serverless_scaling_configuration_min_capacity" {
-  type = string
-}
-
 
 variable "cluster_subnet_database_id" {
   description = "List of database subnet ids"
@@ -74,15 +68,7 @@ variable "tags" {
   type        = map(any)
 }
 
-variable "vpc_cidr" {
-  type = string
-}
-
 variable "instance_class" {
-  type = string
-}
-
-variable "engine_mode" {
   type = string
 }
 
@@ -93,4 +79,28 @@ variable "enable_http_endpoint" {
 variable "public_subnets" {
   type        = list(string)
   description = "A list of all public subnets IDs."
+}
+
+variable "skip_final_snapshot" {
+  type = string
+}
+
+variable "final_snapshot_identifier" {
+  type = string
+}
+
+variable "auto_pause" {
+  default = false
+}
+
+variable "min_capacity" {
+  default = 1
+}
+
+variable "max_capacity" {
+  default = 4
+}
+
+variable "seconds_until_auto_pause" {
+  default = 300
 }
