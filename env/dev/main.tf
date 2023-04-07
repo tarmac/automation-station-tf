@@ -66,3 +66,12 @@ module "ec2" {
         projectname    = "internal"
     }
 }
+
+module "ecs" {
+    source          = "../../modules/ecs"
+
+    tags = {
+        env            = "dev"
+        projectname    = "internal"
+    }
+}
