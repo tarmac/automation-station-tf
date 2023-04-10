@@ -66,3 +66,28 @@ module "ec2" {
         projectname    = "internal"
     }
 }
+
+module "cloudfront" {
+    source                          = "../../modules/cloudfront"
+    cloudfront_default_root_object  = var.cloudfront_default_root_object
+    region                          = var.region
+    s3_bucket_name                  = var.s3_bucket_name
+        tags = {
+        env            = "dev"
+        vpc            = "vpc"
+        projectname    = "internal"
+    }
+}
+
+module "s3" {
+    source = "../../modules/s3"
+    s3_bucket_name                              = var.s3_bucket_name
+    s3_bucket_acl                               = var.s3_bucket_acl
+    aws_acc_id                                  = data.aws_caller_identity.current.account_id
+    cloudfront_distribution_arn                 = module.cloudfront.cloudfront_distribution_arn
+        tags = {
+        env            = "dev"
+        vpc            = "vpc"
+        projectname    = "internal"
+    }
+}
