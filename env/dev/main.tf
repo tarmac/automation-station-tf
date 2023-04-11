@@ -66,3 +66,10 @@ module "ec2" {
         projectname    = "internal"
     }
 }
+
+module "waf" {
+  source                         = "../../modules/waf"
+  lb_arn                         = module.ecs.lb_arn #check after creation of module ECS
+  cloudfront_distribution_arn    = module.cloudfront.cloudfront_distribution_arn #check after creation of module cloudfron
+  tags                           = var.tags
+}
