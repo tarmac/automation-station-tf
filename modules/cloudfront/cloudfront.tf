@@ -2,6 +2,7 @@ resource "aws_cloudfront_distribution" "automation_station_distribution" {
   aliases             = var.tags == "dev" ? ["automation-station.dev.usetrace.com"] : ["automation-station.usetrace.com"]
   default_root_object = var.cloudfront_default_root_object
   enabled             = true
+  web_acl_id          = var.web_acl_arn
   http_version        = "http2"
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"

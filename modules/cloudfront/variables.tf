@@ -10,3 +10,6 @@ variable "tags" {
 variable "s3_bucket_name" {
   type = string
 }
+variable "web_acl_arn" {
+  type = string
+}

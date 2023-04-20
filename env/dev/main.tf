@@ -72,6 +72,7 @@ module "cloudfront" {
     cloudfront_default_root_object  = var.cloudfront_default_root_object
     region                          = var.region
     s3_bucket_name                  = var.s3_bucket_name
+    web_acl_arn                     = module.waf.wafv2_web_acl_cloudfront_arn
         tags = {
         env            = "dev"
         vpc            = "vpc"
@@ -96,6 +97,16 @@ module "ecs" {
     source          = "../../modules/ecs"
 
     tags = {
+        env            = "dev"
+        projectname    = "internal"
+    }
+}
+
+module "waf" {
+  source                         = "../../modules/waf"
+#   lb_arn                         = module.ecs.lb_arn #check after creation of module ECS
+  cloudfront_distribution_arn    = module.cloudfront.cloudfront_distribution_arn #check after creation of module cloudfron
+  tags = {
         env            = "dev"
         projectname    = "internal"
     }
