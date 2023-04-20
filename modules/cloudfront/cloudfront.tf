@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "automation_station_distribution" {
 }
 
 resource "aws_cloudfront_origin_access_control" "s3_frontend" {
-  name                              = var.tags == "dev" ? "internal-frontend-dev.s3-us-east-1.amazonaws.com" : "internal-frontend-${var.tags["env"]}.s3-us-east-1.amazonaws.com"
+  name                              = var.tags == "prod" ? "${var.tags["projectname"]}-${var.s3_bucket_name}.s3-${var.region}.amazonaws.com" : "${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3-${var.region}.amazonaws.com"
   description                       = "Cloudfront distribution for S3 frontend"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
