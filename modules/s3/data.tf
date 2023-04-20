@@ -14,7 +14,8 @@ data "aws_iam_policy_document" "automation_station_s3_access" {
     ]
 
     resources = [
-      "arn:aws:s3:::internal-${var.s3_bucket_name}/*"
+      "arn:aws:s3:::${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}",
+      "arn:aws:s3:::${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}/*"
       
 
     ]
@@ -42,8 +43,8 @@ data "aws_iam_policy_document" "automation_station_s3_access" {
     ]
 
     resources = [
-      "arn:aws:s3:::internal-${var.s3_bucket_name}/*",
-      "arn:aws:s3:::internal-${var.s3_bucket_name}"
+      "arn:aws:s3:::${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}",
+      "arn:aws:s3:::${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}/*"
     ]
   }
 }

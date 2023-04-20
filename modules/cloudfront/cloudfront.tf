@@ -1,5 +1,5 @@
 resource "aws_cloudfront_distribution" "automation_station_distribution" {
-  aliases             = var.tags == "dev" ? ["dev-automation-station.tarmac.io"] : [".automation-station.tarmac.io"]
+  aliases             = var.tags == "dev" ? ["automation-station.dev.usetrace.com"] : ["automation-station.usetrace.com"]
   default_root_object = var.cloudfront_default_root_object
   enabled             = true
   http_version        = "http2"
@@ -23,18 +23,29 @@ resource "aws_cloudfront_distribution" "automation_station_distribution" {
     allowed_methods = ["GET","HEAD"]
     cached_methods  = ["GET","HEAD"]
     compress               = true
-    target_origin_id       = var.tags == "dev" ? "internal-frontend.s3-website-us-east-1.amazonaws.com" : "vx-license-frontend-${var.tags["env"]}.s3-website-us-east-1.amazonaws.com"
+    target_origin_id       = var.tags == "prod" ? "${var.tags["projectname"]}-${var.s3_bucket_name}.s3-${var.region}.amazonaws.com" : "${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3-${var.region}.amazonaws.com"
 
     trusted_key_groups     = []
     trusted_signers        = []
     viewer_protocol_policy = "allow-all"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   origin {
     connection_attempts = 3
     connection_timeout  = 10
-    domain_name         = var.tags == "prod" ? "${var.tags["name"]}-${var.s3_bucket_name}.s3.${var.region}.amazonaws.com" : "${var.tags["name"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3.${var.region}.amazonaws.com"
-    origin_id           = var.tags == "prod" ? "${var.tags["name"]}-${var.s3_bucket_name}.s3.${var.region}.amazonaws.com" : "${var.tags["name"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3.${var.region}.amazonaws.com"
+    domain_name         = var.tags == "prod" ? "${var.tags["projectname"]}-${var.s3_bucket_name}.s3-${var.region}.amazonaws.com" : "${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3-${var.region}.amazonaws.com"
+    origin_id           = var.tags == "prod" ? "${var.tags["projectname"]}-${var.s3_bucket_name}.s3-${var.region}.amazonaws.com" : "${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3-${var.region}.amazonaws.com"
     origin_access_control_id = aws_cloudfront_origin_access_control.s3_frontend.id
   }
 
@@ -52,7 +63,7 @@ resource "aws_cloudfront_distribution" "automation_station_distribution" {
 }
 
 resource "aws_cloudfront_origin_access_control" "s3_frontend" {
-  name                              = var.tags == "prod" ? "${var.tags["name"]}-${var.s3_bucket_name}.s3.${var.region}.amazonaws.com" : "${var.tags["name"]}-${var.s3_bucket_name}-${var.tags["env"]}.s3.${var.region}.amazonaws.com"
+  name                              = var.tags == "dev" ? "internal-frontend-dev.s3-us-east-1.amazonaws.com" : "internal-frontend-${var.tags["env"]}.s3-us-east-1.amazonaws.com"
   description                       = "Cloudfront distribution for S3 frontend"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"

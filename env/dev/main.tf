@@ -91,3 +91,12 @@ module "s3" {
         projectname    = "internal"
     }
 }
+
+module "ecs" {
+    source          = "../../modules/ecs"
+
+    tags = {
+        env            = "dev"
+        projectname    = "internal"
+    }
+}

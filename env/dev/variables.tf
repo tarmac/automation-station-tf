@@ -87,5 +87,5 @@ variable "cloudfront_default_root_object" {
 }
 
 variable "s3_bucket_acl" {
-  default = "public"
+  default = "public-read"
 }
