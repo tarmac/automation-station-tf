@@ -78,3 +78,14 @@ variable "skip_final_snapshot" {
 variable "final_snapshot_identifier" {
   default = "dev-internal-db-cluster"
 }
+variable "s3_bucket_name" {
+  default = "frontend" 
+}
+
+variable "cloudfront_default_root_object" {
+  default = "index.html"
+}
+
+variable "s3_bucket_acl" {
+  default = "public-read"
+}
