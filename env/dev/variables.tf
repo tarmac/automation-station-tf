@@ -17,6 +17,7 @@ variable "vpc_cidr_block" {
 variable "key_pair" {
   default = "automation"
 }
+
 variable "engine" {
   default = "aurora-mysql"
 }
@@ -88,4 +89,12 @@ variable "cloudfront_default_root_object" {
 
 variable "s3_bucket_acl" {
   default = "public-read"
+}
+
+variable "environment" {
+  default = "dev"
+}
+
+variable "config" {
+  type = any
 }
