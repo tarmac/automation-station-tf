@@ -1,7 +1,7 @@
 config = {
 
   ## Provider variables
-  region  = "eu-west-2"
+  region  = "us-east-1"
   profile = "automation"
 
 
