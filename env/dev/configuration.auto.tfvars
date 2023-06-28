@@ -95,10 +95,10 @@ config = {
 
   ## RDS variables
   rds_config = {
-    db_username             = "automation"
+    db_username             = "db_foo"
     db_root_password_length = 20
     db_instance_class       = "db.t3.micro"
-    name                    = "devAutomationDB"
+    name                    = "dbAutomationStation"
   }
 
   ## s3 Bucket variables

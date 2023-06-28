@@ -19,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "cahootz-ecs-role"
+  name = "automation-station-ecs-role"
 
   assume_role_policy = <<EOF
 {

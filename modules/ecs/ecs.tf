@@ -6,33 +6,33 @@ resource "aws_ecs_cluster" "ecs" {
 
 # ETL ECS Service
 
-resource "aws_ecs_service" "public_ecs" {
-  for_each               = { for key, val in var.config_services : key => val if val.type == "public" }
-  name                   = each.value.name
-  cluster                = aws_ecs_cluster.ecs.id
-  enable_execute_command = var.exec_command
-  task_definition = "${aws_ecs_task_definition.ecs[each.key].family}:${max(
-    aws_ecs_task_definition.ecs[each.key].revision,
-    data.aws_ecs_task_definition.ecs[each.key].revision,
-  )}"
-  #task_definition                    = aws_ecs_task_definition.ecs.arn
-  #task_definition     = aws_ecs_task_definition.ecs[each.key].id
-  desired_count       = 1
-  launch_type         = "FARGATE"
-  scheduling_strategy = "REPLICA"
+# resource "aws_ecs_service" "public_ecs" {
+#   for_each               = { for key, val in var.config_services : key => val if val.type == "public" }
+#   name                   = each.value.name
+#   cluster                = aws_ecs_cluster.ecs.id
+#   enable_execute_command = var.exec_command
+#   task_definition = "${aws_ecs_task_definition.ecs[each.key].family}:${max(
+#     aws_ecs_task_definition.ecs[each.key].revision,
+#     data.aws_ecs_task_definition.ecs[each.key].revision,
+#   )}"
+#   #task_definition                    = aws_ecs_task_definition.ecs.arn
+#   #task_definition     = aws_ecs_task_definition.ecs[each.key].id
+#   desired_count       = 1
+#   launch_type         = "FARGATE"
+#   scheduling_strategy = "REPLICA"
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.external[each.key].arn
-    container_name   = each.value.taskDefinitionValues["container_name"]
-    container_port   = each.value.taskDefinitionValues["container_port"]
-  }
+#   load_balancer {
+#     target_group_arn = aws_lb_target_group.external[each.key].arn
+#     container_name   = each.value.taskDefinitionValues["container_name"]
+#     container_port   = each.value.taskDefinitionValues["container_port"]
+#   }
 
-  network_configuration {
-    security_groups  = [aws_security_group.ecs_security_group.id]
-    subnets          = var.private_subnets
-    assign_public_ip = false
-  }
-}
+#   network_configuration {
+#     security_groups  = [aws_security_group.ecs_security_group.id]
+#     subnets          = var.private_subnets
+#     assign_public_ip = false
+#   }
+# }
 
 resource "aws_ecs_task_definition" "ecs" {
   for_each                 = var.config_services
