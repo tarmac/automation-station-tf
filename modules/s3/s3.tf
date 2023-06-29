@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = "${var.tags["projectname"]}-${var.s3_bucket_name}-${var.tags["env"]}"
+  acl    = "private"
   tags   = var.tags
 }
 
