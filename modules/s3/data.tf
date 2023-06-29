@@ -28,3 +28,4 @@ data "aws_iam_policy_document" "automation_station_s3_access" {
       ]
     }
   }
+}
