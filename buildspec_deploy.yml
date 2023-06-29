@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       #Change value of COMMAND variable to apply or destroy
-      - export COMMAND=deploy
+      - export COMMAND=apply
       #Install terraform
       - wget https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_linux_amd64.zip
       - unzip terraform_1.3.7_linux_amd64.zip
