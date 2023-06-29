@@ -13,5 +13,6 @@ phases:
   build:
     commands:
       #Deploy terraform stack
+      - cd env/dev
       - terraform init
       - terraform $COMMAND -auto-approve
