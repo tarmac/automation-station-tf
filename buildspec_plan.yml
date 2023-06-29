@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      #Install terraform
+      - wget https://https://releases.hashicorp.com/terraform/1.5.2/terraform_1.5.2_linux_amd64.zip
+      - unzip terraform_1.5.2_linux_amd64.zip
+      - mv terraform /bin
+      - rm terraform_1.5.2_linux_amd64.zip
+  build:
+    commands:
+      #Run terraform plan
+      - cd env/dev
+      - terraform init
+      - terraform plan
+      #- chmod +x plan-to-slack.sh
+      #- ./plan-to-slack.sh
