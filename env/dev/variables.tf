@@ -3,7 +3,7 @@ variable "projectname" {
 }
 
 variable "profile" {
-  default = "automation"
+  default = "default"
 }
 
 variable "region" {
