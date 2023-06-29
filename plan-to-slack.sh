@@ -12,3 +12,4 @@ then
    JSON="{\"title\": \"${TITLE}\", \"themeColor\": \"${COLOR}\", \"text\": \"${MESSAGE}\" }"
    # Post to Slack.
    curl -H "Content-Type: application/json" -d "${JSON}" "${WEBHOOK_URL}"
+   fi
