@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /env/dev
 terraform plan -detailed-exitcode
 export planresult=$?
 if [[ "${planresult}" == "2" ]]
