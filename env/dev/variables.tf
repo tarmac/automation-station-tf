@@ -79,7 +79,7 @@ variable "final_snapshot_identifier" {
   default = "dev-internal-db-cluster"
 }
 variable "s3_bucket_name" {
-  default = "frontend" 
+  default = "frontend1" 
 }
 
 variable "cloudfront_default_root_object" {
