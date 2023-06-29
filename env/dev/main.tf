@@ -18,7 +18,7 @@ module "vpc" {
     tags = {
         env            = "dev"
         vpc            = "vpc"
-        projectname    = "internal"
+        projectname    = "internal-automation"
     }
 }
 module "aurora" {
