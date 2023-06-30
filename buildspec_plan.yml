@@ -14,7 +14,4 @@ phases:
       - cd env/dev
       - terraform init
       - terraform plan
-      - cd ..
-      - cd ..
-      - chmod +x plan-to-slack.sh
-      - ./plan-to-slack.sh
+
