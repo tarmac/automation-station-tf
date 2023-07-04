@@ -21,3 +21,7 @@ data "aws_iam_policy_document" "ssm_policy" {
     ]
   }
 }
+data "aws_acm_certificate" "automation_station" {
+  domain   = "*.usetrace.com"
+  statuses = ["ISSUED"]
+}

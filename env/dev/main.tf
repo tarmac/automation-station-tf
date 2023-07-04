@@ -105,10 +105,10 @@ module "ecs" {
     ecs_task_execution_role = data.aws_iam_policy_document.ecs_ecr_access.json
     ecs_task_role           = data.aws_iam_policy_document.ecs_ecr_access.json
     container_definitions   = "${path.root}/../taskdefinitions/generic_task_definition.tpl"
-    public_subnets          = module.vpc.subnet_public_cidr
+    public_subnets          = module.vpc.public_subnet_ids
     private_subnets         = module.vpc.subnet_private_cidr
     exec_command            = var.config.exec_command
-    #acm_certificate_arn     = data.aws_acm_certificate.automation_station.arn
+    acm_certificate_arn     = module.cloudfront.aws_acm_certificate_arn
 
 
 
