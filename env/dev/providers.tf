@@ -1,5 +1,6 @@
 provider "aws" {
   region  = var.region
+  profile = var.profile
 
   default_tags {
    tags = {
@@ -23,6 +24,7 @@ terraform {
     dynamodb_table = "dynamo-785700991304-terraform-locks-dev"
     encrypt        = "true"
     key            = "infra-dev.tfstate"
+    profile        = "automation"
     region         = "us-east-1"
   }
 }

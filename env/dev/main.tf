@@ -111,3 +111,13 @@ module "waf" {
         projectname    = "internal"
     }
 }
+
+module "pipelines_backend" {
+    source          = "../../modules/pipelines/backend"
+    private_subnets  = module.vpc.subnet_private_cidr
+
+    tags = {
+        env            = "dev"
+        projectname    = "internal"
+    }
+}
