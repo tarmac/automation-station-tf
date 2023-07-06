@@ -3,5 +3,5 @@ output "cloudfront_distribution_arn" {
 }
 
 output "aws_acm_certificate_arn" {
-  value = aws_acm_certificate.automation_station.arn
+  value = data.aws_acm_certificate.automation_station.arn
 }

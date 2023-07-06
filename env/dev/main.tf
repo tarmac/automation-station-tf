@@ -70,6 +70,7 @@ module "ec2" {
 module "cloudfront" {
     source                          = "../../modules/cloudfront"
     cloudfront_default_root_object  = var.cloudfront_default_root_object
+    acm_certificate_arn             = module.cloudfront.aws_acm_certificate_arn
     region                          = var.region
     s3_bucket_name                  = var.s3_bucket_name
     web_acl_arn                     = module.waf.wafv2_web_acl_cloudfront_arn
