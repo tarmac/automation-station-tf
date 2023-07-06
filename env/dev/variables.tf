@@ -2,10 +2,6 @@ variable "projectname" {
   default = "internal"
 }
 
-variable "profile" {
-  default = "default"
-}
-
 variable "region" {
   default = "us-east-1"
 }
@@ -17,6 +13,7 @@ variable "vpc_cidr_block" {
 variable "key_pair" {
   default = "automation"
 }
+
 variable "engine" {
   default = "aurora-mysql"
 }
@@ -89,3 +86,4 @@ variable "cloudfront_default_root_object" {
 variable "s3_bucket_acl" {
   default = "private"
 }
+
