@@ -86,4 +86,6 @@ variable "cloudfront_default_root_object" {
 variable "s3_bucket_acl" {
   default = "private"
 }
-
+variable "config" {
+  type = any
+}
