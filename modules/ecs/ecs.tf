@@ -46,48 +46,48 @@ resource "aws_ecs_task_definition" "ecs" {
   container_definitions    = templatefile(var.container_definitions, each.value.taskDefinitionValues)
 }
 
-resource "aws_appautoscaling_target" "ecs_target" {
-  for_each           = var.config_services
-  max_capacity       = each.value.max_capacity
-  min_capacity       = each.value.min_capacity
-  resource_id        = "service/${aws_ecs_cluster.ecs.name}/${each.value.name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
-}
+# resource "aws_appautoscaling_target" "ecs_target" {
+#   for_each           = var.config_services
+#   max_capacity       = each.value.max_capacity
+#   min_capacity       = each.value.min_capacity
+#   resource_id        = "service/${aws_ecs_cluster.ecs.name}/${each.value.name}"
+#   scalable_dimension = "ecs:service:DesiredCount"
+#   service_namespace  = "ecs"
+# }
 
-resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
-  for_each           = aws_appautoscaling_target.ecs_target
-  name               = "policy-cpu"
-  policy_type        = "TargetTrackingScaling"
-  resource_id        = each.value.resource_id
-  scalable_dimension = each.value.scalable_dimension
-  service_namespace  = each.value.service_namespace
+# resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
+#   for_each           = aws_appautoscaling_target.ecs_target
+#   name               = "policy-cpu"
+#   policy_type        = "TargetTrackingScaling"
+#   resource_id        = each.value.resource_id
+#   scalable_dimension = each.value.scalable_dimension
+#   service_namespace  = each.value.service_namespace
 
-  target_tracking_scaling_policy_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization"
-    }
-    target_value = 80
-  }
-  depends_on = [aws_appautoscaling_target.ecs_target]
-}
+#   target_tracking_scaling_policy_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ECSServiceAverageCPUUtilization"
+#     }
+#     target_value = 80
+#   }
+#   depends_on = [aws_appautoscaling_target.ecs_target]
+# }
 
-resource "aws_appautoscaling_policy" "ecs_policy_mem" {
-  for_each           = aws_appautoscaling_target.ecs_target
-  name               = "policy-mem"
-  policy_type        = "TargetTrackingScaling"
-  resource_id        = each.value.resource_id
-  scalable_dimension = each.value.scalable_dimension
-  service_namespace  = each.value.service_namespace
+# resource "aws_appautoscaling_policy" "ecs_policy_mem" {
+#   for_each           = aws_appautoscaling_target.ecs_target
+#   name               = "policy-mem"
+#   policy_type        = "TargetTrackingScaling"
+#   resource_id        = each.value.resource_id
+#   scalable_dimension = each.value.scalable_dimension
+#   service_namespace  = each.value.service_namespace
 
-  target_tracking_scaling_policy_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
-    }
-    target_value = 80
-  }
-  depends_on = [aws_appautoscaling_target.ecs_target]
-}
+#   target_tracking_scaling_policy_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
+#     }
+#     target_value = 80
+#   }
+#   depends_on = [aws_appautoscaling_target.ecs_target]
+# }
 
 
 
