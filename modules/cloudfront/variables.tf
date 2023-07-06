@@ -13,3 +13,8 @@ variable "s3_bucket_name" {
 variable "web_acl_arn" {
   type = string
 }
+variable "acm_certificate_arn" {
+  default     = ""
+  type        = string
+  description = "Variable for ssl cerificate"
+}

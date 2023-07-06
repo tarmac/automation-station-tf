@@ -70,6 +70,7 @@ module "ec2" {
 module "cloudfront" {
     source                          = "../../modules/cloudfront"
     cloudfront_default_root_object  = var.cloudfront_default_root_object
+    acm_certificate_arn             = module.cloudfront.aws_acm_certificate_arn
     region                          = var.region
     s3_bucket_name                  = var.s3_bucket_name
     web_acl_arn                     = module.waf.wafv2_web_acl_cloudfront_arn
@@ -94,7 +95,23 @@ module "s3" {
 }
 
 module "ecs" {
-    source          = "../../modules/ecs"
+    source                  = "../../modules/ecs"
+    environment             = var.environment
+    vpc_id                  = module.vpc.vpc_id
+    vpc_cidr_block          = var.vpc_cidr_block
+    region                  = var.region
+    services                = var.config.services
+    config_services         = var.config.services
+    aws_acc_id              = data.aws_caller_identity.current.account_id
+    ecs_task_execution_role = data.aws_iam_policy_document.ecs_ecr_access.json
+    ecs_task_role           = data.aws_iam_policy_document.ecs_ecr_access.json
+    container_definitions   = "${path.root}/../taskdefinitions/generic_task_definition.tpl"
+    public_subnets          = module.vpc.public_subnet_ids
+    private_subnets         = module.vpc.subnet_private_cidr
+    exec_command            = var.config.exec_command
+    acm_certificate_arn     = module.cloudfront.aws_acm_certificate_arn
+
+
 
     tags = {
         env            = "dev"
