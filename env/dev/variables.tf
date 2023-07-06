@@ -2,10 +2,6 @@ variable "projectname" {
   default = "internal"
 }
 
-# variable "profile" {
-#   default = "automation"
-# }
-
 variable "region" {
   default = "us-east-1"
 }
@@ -80,7 +76,7 @@ variable "final_snapshot_identifier" {
   default = "dev-internal-db-cluster"
 }
 variable "s3_bucket_name" {
-  default = "frontend" 
+  default = "frontend1" 
 }
 
 variable "cloudfront_default_root_object" {
@@ -88,13 +84,6 @@ variable "cloudfront_default_root_object" {
 }
 
 variable "s3_bucket_acl" {
-  default = "public-read"
+  default = "private"
 }
 
-variable "environment" {
-  default = "dev"
-}
-
-variable "config" {
-  type = any
-}
