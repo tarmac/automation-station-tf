@@ -2,7 +2,7 @@ config = {
 
   ## Provider variables
   region  = "us-east-1"
-  #profile = "automation"
+  profile = "automation"
 
 
   ## Environment variables

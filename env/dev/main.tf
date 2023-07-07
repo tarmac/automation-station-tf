@@ -131,7 +131,8 @@ module "waf" {
 
 module "pipelines_backend" {
     source          = "../../modules/pipelines/backend"
-    private_subnets  = module.vpc.subnet_private_cidr
+    private_subnets              = module.vpc.subnet_private_cidr
+    public_subnets               = module.vpc.subnet_public_cidr
 
     tags = {
         env            = "dev"

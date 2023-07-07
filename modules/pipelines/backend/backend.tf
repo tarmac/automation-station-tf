@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "backend" {
   name          = "backend"
   description   = "backend-serverless"
   build_timeout = "5"
-  service_role  = aws_iam_role.example.arn   #########
+  service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "backend" {
 
   cache {
     type     = "S3"
-    location = aws_s3_bucket.s3_bucket   ######
+    location = aws_s3_bucket.codepipeline_bucket.bucket
   }
 
   environment {
@@ -18,18 +18,17 @@ resource "aws_codebuild_project" "backend" {
     image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
-
+  }
   logs_config {
     cloudwatch_logs {
       group_name  = "log-group"
       stream_name = "log-stream"
     }
-
   }
 
   source {
     type            = "GITHUB"
-    location        = "https://github.com/tarmac/automation-station/buildspec.yml"  ###
+    location        = "https://github.com/tarmac/automation-station/"
     git_clone_depth = 1
 
     git_submodules_config {
@@ -37,14 +36,8 @@ resource "aws_codebuild_project" "backend" {
     }
   }
 
-  source_version = "master"
+}
 
-  tags = {
-    Name = "${var.tags["env"]}-${var.tags["projectname"]}-backend-pipeline"
-    Managed_by = "terraform"
-  }
-}
-}
 
 resource "aws_codepipeline" "codepipeline" {
   name     = "tf-test-pipeline"
