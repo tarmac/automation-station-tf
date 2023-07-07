@@ -96,7 +96,7 @@ module "s3" {
 
 module "ecs" {
     source                  = "../../modules/ecs"
-    environment             = var.environment
+    #environment             = var.environment
     vpc_id                  = module.vpc.vpc_id
     vpc_cidr_block          = var.vpc_cidr_block
     region                  = var.region
