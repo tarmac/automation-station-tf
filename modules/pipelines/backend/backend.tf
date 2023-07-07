@@ -128,7 +128,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
   }
 }
 resource "aws_s3_bucket_acl" "bucket_acl" {
-  bucket = aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.codepipeline_bucket.id
   acl    = var.s3_bucket_acl
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
