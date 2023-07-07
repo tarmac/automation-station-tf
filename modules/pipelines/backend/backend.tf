@@ -115,11 +115,6 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = "${var.tags["projectname"]}-${var.tags["env"]}-backend-pipeline"
 }
 
-resource "aws_s3_bucket_acl" "codepipeline_bucket_acl" {
-  bucket = aws_s3_bucket.codepipeline_bucket.id
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
   bucket = aws_s3_bucket.codepipeline_bucket.id
   versioning_configuration {
@@ -131,4 +126,9 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
   rule {
     object_ownership = "ObjectWriter"
   }
+}
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  acl    = var.s3_bucket_acl
+  depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
