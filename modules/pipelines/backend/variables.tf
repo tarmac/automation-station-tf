@@ -12,3 +12,6 @@ variable "private_subnets" {
     "",
   ]
 }
+variable "s3_bucket_acl" {
+  type = string
+}
