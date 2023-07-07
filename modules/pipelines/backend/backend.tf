@@ -5,7 +5,7 @@ resource "aws_codebuild_project" "backend" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "NO_ARTIFACTSS"
   }
 
   cache {
