@@ -5,7 +5,7 @@ resource "aws_codebuild_project" "backend" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "NO_ARTIFACTSS"
+    type = "NO_ARTIFACTS"
   }
 
   cache {
@@ -38,17 +38,16 @@ resource "aws_codebuild_project" "backend" {
 
 }
 
-
 resource "aws_codepipeline" "codepipeline" {
   name     = "tf-test-pipeline"
-  role_arn = "${aws_iam_role.codepipeline_role.arn}"
+  role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = "${aws_s3_bucket.codepipeline_bucket.bucket}"
+    location = aws_s3_bucket.codepipeline_bucket.bucket
     type     = "S3"
 
     encryption_key {
-      id   = "${data.aws_kms_alias.s3kmskey.arn}"
+      id   = data.aws_kms_alias.s3kmskey.arn
       type = "KMS"
     }
   }
@@ -59,15 +58,15 @@ resource "aws_codepipeline" "codepipeline" {
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "ThirdParty"
-      provider         = "GitHub"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["source_output"]
 
       configuration = {
-        Owner  = "my-organization"
-        Repo   = "test"
-        Branch = "master"
+        ConnectionArn    = aws_codestarconnections_connection.example.arn
+        FullRepositoryId = "my-organization/example"
+        BranchName       = "main"
       }
     }
   }
@@ -110,4 +109,18 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+}
+
+resource "aws_codestarconnections_connection" "example" {
+  name          = "example-connection"
+  provider_type = "GitHub"
+}
+
+resource "aws_s3_bucket" "codepipeline_bucket" {
+  bucket = "${var.tags["projectname"]}-${var.tags["env"]}-backend-pipeline"
+}
+
+resource "aws_s3_bucket_acl" "codepipeline_bucket_acl" {
+  bucket = aws_s3_bucket.codepipeline_bucket.id
+  acl    = "private"
 }
