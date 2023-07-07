@@ -1,7 +1,3 @@
-data "aws_kms_alias" "s3kmskey" {
-  name = "alias/myKmsKey"
-}
-
 data "aws_iam_policy_document" "assume_role_codebuild" {
   statement {
     effect = "Allow"
