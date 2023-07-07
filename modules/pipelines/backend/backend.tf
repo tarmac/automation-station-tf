@@ -56,6 +56,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
+      output_artifacts = ["source_output"]
 
       configuration = {
         ConnectionArn    = "arn:aws:codestar-connections:us-east-1:785700991304:connection/c9ed8d93-ee25-40c0-83f5-ebaa9eb52524"
@@ -73,6 +74,8 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
       version          = "1"
 
       configuration = {
