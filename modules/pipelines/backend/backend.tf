@@ -162,7 +162,7 @@ resource "aws_s3_bucket_ownership_controls" "tarmac_s3_bucket_acl_ownership" {
     object_ownership = "ObjectWriter"
   }
 }
-resource "aws_s3_bucket_acl" "bucket_acl" {
+resource "aws_s3_bucket_acl" "tarmac_bucket_acl" {
   bucket = aws_s3_bucket.tarmac-serverless-deployments.id
   acl    = var.s3_bucket_acl
   depends_on = [aws_s3_bucket_ownership_controls.tarmac_s3_bucket_acl_ownership]
