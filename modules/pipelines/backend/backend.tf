@@ -59,7 +59,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = "arn:aws:codestar-connections:us-east-1:785700991304:connection/c9ed8d93-ee25-40c0-83f5-ebaa9eb52524"
+        ConnectionArn    = "arn:aws:codestar-connections:us-east-1:785700991304:connection/c9ed8d93-ee25-40c0-83f5-ebaa9eb52524" #created manually need to find way to be imported
         FullRepositoryId = "automation-station"
         BranchName       = "master"
       }
@@ -85,10 +85,40 @@ resource "aws_codepipeline" "codepipeline" {
   }
 }
 
-resource "aws_codestarconnections_connection" "example" {
-  name          = "example-connection"
-  provider_type = "GitHub"
-}
+# resource "aws_codepipeline_webhook" "codepipeline_webhook" {
+#   name            = "test-webhook-github-bar"
+#   authentication  = "GITHUB_HMAC"
+#   target_action   = "Source"
+#   target_pipeline = aws_codepipeline.tf-test-pipeline.name
+
+#   authentication_configuration {
+#     secret_token = data.aws_ssm_parameter.webhook_secret.value
+#   }
+
+#   filter {
+#     json_path    = "$.ref"
+#     match_equals = "refs/heads/{Branch}"
+#   }
+# }
+
+# resource "github_repository_webhook" "bar" {
+#   repository = github_repository.repo.name
+
+#   name = "web"
+
+#   configuration {
+#     url          = aws_codepipeline_webhook.codepipeline_webhook.url
+#     content_type = "json"
+#     insecure_ssl = true
+#     secret       = data.aws_ssm_parameter.webhook_secret.value
+#   }
+
+#   events = ["push"]
+# }
+# resource "aws_codestarconnections_connection" "example" {
+#   name          = "example-connection"
+#   provider_type = "GitHub"
+# }
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = "${var.tags["projectname"]}-${var.tags["env"]}-backend-pipeline"

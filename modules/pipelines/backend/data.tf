@@ -119,3 +119,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = ["*"]
   }
 }
+
+# data "aws_ssm_parameter" "webhook_secret" {
+#   name      = "/terraform/webhook_secret"
+# }
