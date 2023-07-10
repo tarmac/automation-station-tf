@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "backend" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "tf-test-pipeline"
+  name     = "backend"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
