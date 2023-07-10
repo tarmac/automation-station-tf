@@ -65,7 +65,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn    = "arn:aws:codestar-connections:us-east-1:785700991304:connection/c9ed8d93-ee25-40c0-83f5-ebaa9eb52524" #created manually need to find way to be imported
         FullRepositoryId = "automation-station"
-        BranchName       = "master"
+        BranchName       = "develop"
       }
     }
   }
