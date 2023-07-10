@@ -33,7 +33,7 @@ variable "database_name" {
 }
 
 variable "master_username" {
-  default = "automation-station-root"
+  default = "automation_station"
 }
 
 variable "backup_retention_period" {
