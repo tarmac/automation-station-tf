@@ -1,5 +1,5 @@
-resource "aws_codebuild_project" "backend" {
-  name          = "backend"
+resource "aws_codebuild_project" "frontend" {
+  name          = "frontend"
   description   = "backend-serverless"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
@@ -15,13 +15,9 @@ resource "aws_codebuild_project" "backend" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:5.0"
+    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
-    environment_variable {
-      name  = "STAGE"
-      value = "dev"
-    }
   }
   logs_config {
     cloudwatch_logs {
@@ -144,26 +140,4 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
   bucket = aws_s3_bucket.codepipeline_bucket.id
   acl    = var.s3_bucket_acl
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
-}
-
-resource "aws_s3_bucket" "tarmac-serverless-deployments" {
-  bucket = "${var.tags["projectname"]}-${var.tags["env"]}-tarmac-serverless-deployments"
-}
-
-resource "aws_s3_bucket_versioning" "tarmac_s3_bucket_versioning" {
-  bucket = aws_s3_bucket.tarmac-serverless-deployments.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-resource "aws_s3_bucket_ownership_controls" "tarmac_s3_bucket_acl_ownership" {
-  bucket = aws_s3_bucket.tarmac-serverless-deployments.id
-  rule {
-    object_ownership = "ObjectWriter"
-  }
-}
-resource "aws_s3_bucket_acl" "bucket_acl" {
-  bucket = aws_s3_bucket.tarmac-serverless-deployments.id
-  acl    = var.s3_bucket_acl
-  depends_on = [aws_s3_bucket_ownership_controls.tarmac_s3_bucket_acl_ownership]
 }
