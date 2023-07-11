@@ -5,7 +5,7 @@ resource "aws_iam_role" "codebuild_role_frontend" {
 
 resource "aws_iam_role_policy" "codebuild_role_frontend" {
   role   = aws_iam_role.codebuild_role_frontend.name
-  policy = data.aws_iam_policy_document.codebuild_role_frontend.json
+  policy = data.aws_iam_policy_document.codebuild_role.json
 }
 
 resource "aws_iam_role" "codepipeline_role_frontend" {

@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "frontend" {
   name          = "automation-station-frontend-dev"
   description   = "frontend"
   build_timeout = "5"
-  service_role  = aws_iam_role.codebuild_role.arn
+  service_role  = aws_iam_role.codebuild_role_frontend.arn
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -40,7 +40,7 @@ resource "aws_codebuild_project" "frontend" {
 
 resource "aws_codepipeline" "codepipeline" {
   name     = "automation-station-frontend-dev"
-  role_arn = aws_iam_role.codepipeline_role.arn
+  role_arn = aws_iam_role.codepipeline_role_frontend.arn
 
   artifact_store {
     location = aws_s3_bucket.codepipeline_bucket.bucket
