@@ -9,7 +9,7 @@ resource "aws_iam_role_policy" "codebuild_role_frontend" {
 }
 
 resource "aws_iam_role" "codepipeline_role_frontend" {
-  name               = "test-role"
+  name               = "codepipeline_role_frontend"
   assume_role_policy = data.aws_iam_policy_document.assume_role_codepipeline.json
 }
 
