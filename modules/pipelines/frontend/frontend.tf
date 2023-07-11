@@ -1,6 +1,6 @@
 resource "aws_codebuild_project" "frontend" {
-  name          = "frontend"
-  description   = "backend-serverless"
+  name          = "automation-station-frontend-dev"
+  description   = "frontend"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
 
@@ -28,7 +28,7 @@ resource "aws_codebuild_project" "frontend" {
 
   source {
     type            = "GITHUB"
-    location        = "https://github.com/tarmac/automation-station/"
+    location        = "https://github.com/tarmac/automation-station-dashboard/"
     git_clone_depth = 1
 
     git_submodules_config {
@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "frontend" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "backend"
+  name     = "automation-station-frontend-dev"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
@@ -121,7 +121,7 @@ resource "aws_codepipeline" "codepipeline" {
 # }
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "${var.tags["projectname"]}-${var.tags["env"]}-backend-pipeline"
+  bucket = "${var.tags["projectname"]}-${var.tags["env"]}-frontend-pipeline"
 }
 
 resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {

@@ -140,3 +140,15 @@ module "pipelines_backend" {
         projectname    = "internal"
     }
 }
+
+module "pipelines_frontend" {
+    source          = "../../modules/pipelines/frontend"
+    private_subnets              = module.vpc.subnet_private_cidr
+    public_subnets               = module.vpc.subnet_public_cidr
+    s3_bucket_acl                = var.s3_bucket_acl
+
+    tags = {
+        env            = "dev"
+        projectname    = "internal"
+    }
+}

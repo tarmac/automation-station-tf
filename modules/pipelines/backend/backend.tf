@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "backend" {
-  name          = "backend"
+  name          = "automation-station-backend-dev"
   description   = "backend-serverless"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
@@ -43,7 +43,7 @@ resource "aws_codebuild_project" "backend" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "backend"
+  name     = "automation-station-backend-dev"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
